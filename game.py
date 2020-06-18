@@ -196,7 +196,7 @@ def HolbWars_Game():
 
 	Reloj = pygame.time.Clock()
 
-	# ***********DEFINED SCREEN TO PLAY
+	# ***********DEFINED SCREEN TO PLAY ********
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) 
 	pygame.display.set_caption(':::  Holb-Wars v1.0  :::')
 	pygame.display.set_icon(pygame.image.load("assets/Background/ico2.png"))
@@ -210,15 +210,15 @@ def HolbWars_Game():
 	menu1 = pygame.image.load("assets/Background/info_menu.png")
 	menu2 = pygame.image.load("assets/Background/info_menu2.png")
 
-	
-	# load champion for the batte tuple (Champion, [bad_champ1, bad_champ2...])
-	#list_champion = load_Champion()
+
+	# ******* BOTTON FOR CONTROL FLOW PROGRAM ******
 	boton_elfo = Botton(150,50, PATH_BOTON_ELFO, PATH_BOTON_ELFO2, "elfo")
 	boton_warrior = Botton(350,50, PATH_BOTON_WARRIOR, PATH_BOTON_WARRIOR2, "warrior")
 	boton_maga = Botton(550, 50, PATH_BOTON_MAGA, PATH_BOTON_MAGA2, "maga")
-
+	boton_home = Botton(SCREEN_WIDTH/2, 10, " ", " ", "menu")
 	cursor = Cursor()
-	#******INTRO******
+
+	# ****** INTRO ******
 	pause = pygame.time.get_ticks()
 	while True:
 		screen.blit(fondo_intro, (0,0))
@@ -226,20 +226,20 @@ def HolbWars_Game():
 			break
 		pygame.display.flip()
 
-	
+	# ****** VAR FOR FLOW CONTROL *****
 	reload_bad_champion = True
 	delay = 0
 	idx_fondo = 0
 	menu = True
 	
-
+	# ****** LOOP GAME CONTROL ******
 	while True:
 		screen.fill(WHITE)
 		screen.blit(fondos[idx_fondo], (0, 0))
 		screen.blit(menu1, (20, 10))
 		screen.blit(menu2, (670, 10))
-
-
+		screen.blit(boton_home.image, boton_home.rect)
+		# *** START MENU ****
 		while menu:
 			screen.fill(WHITE)
 			screen.blit(fondo_menu, (0, 0))
@@ -266,13 +266,15 @@ def HolbWars_Game():
 				menu = False
 			cursor.update()
 			pygame.display.flip()
-		print(list_champion)
-		# *********ATTACK BHAIVOR**********# 
+
+
+		
 		if list_champion[0]:
 			hero = list_champion[0]
 			hero.draw_heroe(screen)
 			hero.draw_Inf(screen)
 
+		# *********ATTACK BHAIVOR**********# 
 		if len(list_champion[1]) > 0 and reload_bad_champion is True:
 
 			enemy = list_champion[1][0]
@@ -341,8 +343,14 @@ def HolbWars_Game():
 
 
 		#update of the screen
+		boton_home.update()
+		cursor.update()
+		if boton_home.menu == True:
+			menu = True
+
 		if delay + 600 < pygame.time.get_ticks():
 			reload_bad_champion = True
+
 
 
 
@@ -703,6 +711,7 @@ class Botton(pygame.sprite.Sprite):
 		self.rect.left = pos_x
 		self.exit = False
 		self.list_champion = []
+		self.menu = False
 
 	def draw_botton(self, place, idx=0):
 		self.idx = idx
@@ -722,6 +731,10 @@ class Botton(pygame.sprite.Sprite):
 				if self.name == "maga":
 					self.list_champion = load_Champion(PATH_MAGO_WOMAN, MAGA_LEVEL1)
 					self.exit = True
+				if self.name = "menu":
+					self.menu = True
+				else:
+					self.menu = False
 
 		if not cursor.colliderect(self.rect):
 			self.image = self.image_boton1
