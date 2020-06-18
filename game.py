@@ -156,7 +156,7 @@ def load_Champion(path_hero, info_hero):
 	jose = Champion(PATH_JOSE, POS_X_BAD_HERO, POS_Y_CHMP)
 	jose.update_base(JOSE_LEVEL1)
 
-	list = (hero, [maga, warrior, jose, maga_uno, warrior_uno, troll_uno])
+	list = [hero, [maga, warrior, jose, maga_uno, warrior_uno, troll_uno]]
 	return list
 
 def fight_Champions(list=[]):
@@ -169,7 +169,7 @@ def evaluate_Demage(data, dest=True):
 		data (tuple): first element is hero secon enemy
 		dest (bool, defaul true): false sub point health enemy to hero, else invert
 	"""
-	if type(data) is tuple and data is not None:
+	if type(data) is list and data is not None:
 
 		at_hero = data[0].stats.get('attack')
 		def_hero = data[0].stats.get('defense')
@@ -182,11 +182,12 @@ def evaluate_Demage(data, dest=True):
 
 		
 		if dest is True:
-			sub_to_villan = (health_villan - ((at_villan + magic_villan) - def_hero))
+			sub_to_villan = (health_villan -  at_hero)
+			print(sub_to_villan)
 			data[1][0].Increase_Stats({'health': sub_to_villan})
 
 		else:
-			sub_to_hero = (health_hero - (at_hero - def_villan))
+			sub_to_hero = (health_hero - at_villan)
 			data[0].Increase_Stats({'health': sub_to_hero})
 
 def HolbWars_Game():
@@ -234,11 +235,7 @@ def HolbWars_Game():
 	
 	# ****** LOOP GAME CONTROL ******
 	while True:
-		screen.fill(WHITE)
-		screen.blit(fondos[idx_fondo], (0, 0))
-		screen.blit(menu1, (20, 10))
-		screen.blit(menu2, (670, 10))
-		screen.blit(boton_home.image, boton_home.rect)
+
 		# *** START MENU ****
 		while menu:
 			screen.fill(WHITE)
@@ -253,20 +250,31 @@ def HolbWars_Game():
 					pygame.quit()
 					quit()
 
+
+			if (boton_elfo.exit or boton_maga.exit or boton_warrior.exit) is True:
+				if len(boton_elfo.list_champion) > 0:
+					for i in boton_elfo.list_champion:
+						list_champion.append(i)
+					menu = False
+				if len(boton_warrior.list_champion) > 0:
+					for i in boton_warrior.list_champion:
+						list_champion.append(i)
+					menu = False
+				if len(boton_maga.list_champion) > 0:
+					for i in boton_maga.list_champion:
+						list_champion.append(i)
+					menu = False
 			boton_elfo.update(screen, cursor)
 			boton_maga.update(screen, cursor)
 			boton_warrior.update(screen, cursor)
-			if (boton_elfo.exit or boton_maga.exit or boton_warrior.exit) is True:
-				if len(boton_elfo.list_champion) > 0:
-					list_champion = boton_elfo.list_champion
-				if len(boton_warrior.list_champion) > 0:
-					list_champion = boton_warrior.list_champion
-				if len(boton_maga.list_champion) > 0:
-					list_champion = boton_maga.list_champion
-				menu = False
 			cursor.update()
 			pygame.display.flip()
 
+		screen.fill(WHITE)
+		screen.blit(fondos[idx_fondo], (0, 0))
+		screen.blit(menu1, (20, 10))
+		screen.blit(menu2, (670, 10))
+		screen.blit(boton_home.image, boton_home.rect)
 
 		
 		if list_champion[0]:
@@ -345,10 +353,7 @@ def HolbWars_Game():
 		# *** UPDATE SCREEEN ****
 		boton_home.update(screen, cursor)
 		cursor.update()
-		if boton_home.menu == True:
-			menu = True
-			for i in range(len(list_champion)):
-				del list_champion[i]
+
 
 
 		if delay + 600 < pygame.time.get_ticks():
