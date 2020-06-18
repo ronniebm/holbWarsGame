@@ -225,13 +225,12 @@ def HolbWars_Game():
 		screen.blit(menu2, (670, 10))
 
 
+		# *********ATTACK BHAIVOR**********# 
 		if list_champion[0]:
 			hero = list_champion[0]
 			hero.draw_heroe(screen)
 			hero.draw_Inf(screen)
 
-
-		# *********ATTACK BHAIVOR**********# 
 		if len(list_champion[1]) > 0 and reload_bad_champion is True:
 
 			enemy = list_champion[1][0]
@@ -647,5 +646,10 @@ class Champion(pygame.sprite.Sprite, Base_Champions):
 				self.reverse_life = False
 				self.life = True
 
+class Botton(pygame.sprite.Sprite):
+
+	def __init__(self,):
+		pygame.sprite.Sprite.__init__()
+		
 
 HolbWars_Game()
