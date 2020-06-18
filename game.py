@@ -23,6 +23,9 @@ PATH_JOSE = "assets/Personajes_png/jose_animated_move.png"
 PATH_BOTON_ELFO = "assets/buttons/elf_player.png"
 PATH_BOTON_WARRIOR = "assets/buttons/warrior_player.png"
 PATH_BOTON_MAGA = "assets/buttons/woman_player.png"
+PATH_BOTON_ELFO2 = "assets/buttons/elf_player.png"
+PATH_BOTON_WARRIOR2 = "assets/buttons/warrior_player.png"
+PATH_BOTON_MAGA2 = "assets/buttons/woman_player.png"
 
 IMG_NUMBER = 10
 FPS = 30
@@ -209,7 +212,7 @@ def HolbWars_Game():
 	list_champion = load_Champion()
 	boton_elfo = Botton(50,50, PATH_BOTON_ELFO, "elfo")
 	boton_warrior = Botton(250,50, PATH_BOTON_WARRIOR, "warrior")
-	boton_maga = Botton(300, 50, PATH_BOTON_MAGA, "maga")
+	boton_maga = Botton(450, 50, PATH_BOTON_MAGA, "maga")
 
 	cursor = Cursor()
 	#******INTRO******
@@ -673,13 +676,15 @@ class Champion(pygame.sprite.Sprite, Base_Champions):
 
 class Botton(pygame.sprite.Sprite):
 
-	def __init__(self, pos_x, pos_y, path, name=""):
+	def __init__(self, pos_x, pos_y, path1, path2, name=""):
 		pygame.sprite.Sprite.__init__(self)
-		self.path = path
+		self.path1 = path1
+		self.path2 = path2
 		self.name = name
-		self.image_boton = pygame.image.load(self.path)
+		self.image_boton1 = pygame.image.load(self.path1)
+		self.image_boton2 = pygame.image.load(self.path2)
 
-		self.image = self.image_boton
+		self.image = self.image_boton1
 		self.rect = self.image.get_rect()
 		self.rect.top = pos_y
 		self.rect.left = pos_x
@@ -690,6 +695,7 @@ class Botton(pygame.sprite.Sprite):
 
 	def update(self, place, cursor):
 		if cursor.colliderect(self.rect):
+			self.image = self.image_boton2
 			if pygame.mouse.get_pressed() == (1, 0, 0):
 				print(self.name)
 		
