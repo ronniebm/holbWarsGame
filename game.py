@@ -20,6 +20,15 @@ PATH_WARRIOR = "assets/Personajes_png/warrior_animated_move.png"
 PATH_MAGO_WOMAN = "assets/Personajes_png/woman_animated_move.png"
 PATH_TROLL = "assets/Personajes_png/troll_animated_move.png"
 PATH_JOSE = "assets/Personajes_png/jose_animated_move.png"
+
+PATH_BOTON_ELFO = "assets/buttons/elf_player.png"
+PATH_BOTON_WARRIOR = "assets/buttons/warrior_player.png"
+PATH_BOTON_MAGA = "assets/buttons/woman_player.png"
+
+PATH_BOTON_ELFO2 = "assets/buttons/elf_player2.png"
+PATH_BOTON_WARRIOR2 = "assets/buttons/warrior_player2.png"
+PATH_BOTON_MAGA2 = "assets/buttons/woman_player2.png"
+
 IMG_NUMBER = 10
 FPS = 30
 POS_X_HERO = 20
@@ -118,15 +127,15 @@ JOSE_LEVEL1 = {
 }
 
 # ****** FUNTIONS **********
-def load_Champion():
+def load_Champion(path_hero, info_hero):
 	"""load to champion por play
 
 	Returns:
 		tupe: first elemen is hero second is an list of enemy
 	"""
 	# load Champion
-	elfo = Champion(PATH_ELFO, POS_X_HERO, POS_Y_CHMP)
-	elfo.update_base(ELFO_LEVEL1)
+	hero = Champion(path_hero, POS_X_HERO, POS_Y_CHMP)
+	hero.update_base(info_hero)
 
 	#load bad_champion
 	warrior = Champion(PATH_WARRIOR, POS_X_BAD_HERO, POS_Y_CHMP)
@@ -147,7 +156,7 @@ def load_Champion():
 	jose = Champion(PATH_JOSE, POS_X_BAD_HERO, POS_Y_CHMP)
 	jose.update_base(JOSE_LEVEL1)
 
-	list = (elfo, [maga, warrior, jose, maga_uno, warrior_uno, troll_uno])
+	list = (hero, [maga, warrior, jose, maga_uno, warrior_uno, troll_uno])
 	return list
 
 def fight_Champions(list=[]):
@@ -197,14 +206,18 @@ def HolbWars_Game():
 	fondo3 = pygame.image.load("assets/Background/fondo3.png")
 	fondos = [fondo, fondo1, fondo2, fondo3]
 	fondo_intro = pygame.image.load("assets/Background/intro.png")
+	fondo_menu = pygame.image.load("assets/Background/wall_intro.png")
 	menu1 = pygame.image.load("assets/Background/info_menu.png")
 	menu2 = pygame.image.load("assets/Background/info_menu2.png")
 
 	
 	# load champion for the batte tuple (Champion, [bad_champ1, bad_champ2...])
-	list_champion = load_Champion()
+	#list_champion = load_Champion()
+	boton_elfo = Botton(150,50, PATH_BOTON_ELFO, PATH_BOTON_ELFO2, "elfo")
+	boton_warrior = Botton(350,50, PATH_BOTON_WARRIOR, PATH_BOTON_WARRIOR2, "warrior")
+	boton_maga = Botton(550, 50, PATH_BOTON_MAGA, PATH_BOTON_MAGA2, "maga")
 
-	
+	cursor = Cursor()
 	#******INTRO******
 	pause = pygame.time.get_ticks()
 	while True:
@@ -217,6 +230,8 @@ def HolbWars_Game():
 	reload_bad_champion = True
 	delay = 0
 	idx_fondo = 0
+	menu = True
+	
 
 	while True:
 		screen.fill(WHITE)
@@ -225,6 +240,33 @@ def HolbWars_Game():
 		screen.blit(menu2, (670, 10))
 
 
+		while menu:
+			screen.fill(WHITE)
+			screen.blit(fondo_menu, (0, 0))
+			list_champion = []
+			boton_elfo.draw_botton(screen)
+			boton_maga.draw_botton(screen)
+			boton_warrior.draw_botton(screen)
+
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					pygame.quit()
+					quit()
+
+			boton_elfo.update(screen, cursor)
+			boton_maga.update(screen, cursor)
+			boton_warrior.update(screen, cursor)
+			if (boton_elfo.exit or boton_maga.exit or boton_warrior.exit) is True:
+				if len(boton_elfo.list_champion) > 0:
+					list_champion = boton_elfo.list_champion
+				if len(boton_warrior.list_champion) > 0:
+					list_champion = boton_warrior.list_champion
+				if len(boton_maga.list_champion) > 0:
+					list_champion = boton_maga.list_champion
+				menu = False
+			cursor.update()
+			pygame.display.flip()
+		print(list_champion)
 		# *********ATTACK BHAIVOR**********# 
 		if list_champion[0]:
 			hero = list_champion[0]
@@ -482,7 +524,6 @@ class Base_Champions(object):
 			if self.stats.get('health') < 0:
 				self.stats.update({'health': 0})
 
-
 class Champion(pygame.sprite.Sprite, Base_Champions):
 
 	def __init__(self, ruta, pos_x, pos_y):
@@ -648,8 +689,49 @@ class Champion(pygame.sprite.Sprite, Base_Champions):
 
 class Botton(pygame.sprite.Sprite):
 
-	def __init__(self,):
-		pygame.sprite.Sprite.__init__()
+	def __init__(self, pos_x, pos_y, path1, path2, name=""):
+		pygame.sprite.Sprite.__init__(self)
+		self.path1 = path1
+		self.path2 = path2
+		self.name = name
+		self.image_boton1 = pygame.image.load(self.path1)
+		self.image_boton2 = pygame.image.load(self.path2)
+
+		self.image = self.image_boton1
+		self.rect = self.image.get_rect()
+		self.rect.top = pos_y
+		self.rect.left = pos_x
+		self.exit = False
+		self.list_champion = []
+
+	def draw_botton(self, place, idx=0):
+		self.idx = idx
+		place.blit(self.image, self.rect)
+
+	def update(self, place, cursor):
+		if cursor.colliderect(self.rect):
+			self.image = self.image_boton2
+			if pygame.mouse.get_pressed() == (1, 0, 0):
+				print(self.name)
+				if self.name == "elfo":
+					self.list_champion = load_Champion(PATH_ELFO, ELFO_LEVEL1)
+					self.exit = True
+				if self.name == "warrior":
+					self.list_champion = load_Champion(PATH_WARRIOR, WARRIOR_LEVEL1)
+					self.exit = True
+				if self.name == "maga":
+					self.list_champion = load_Champion(PATH_MAGO_WOMAN, MAGA_LEVEL1)
+					self.exit = True
+
+		if not cursor.colliderect(self.rect):
+			self.image = self.image_boton1
 		
+class Cursor(pygame.Rect):
+	def __init__(self):
+		pygame.Rect.__init__(self, 0, 0, 1, 1)
+
+	def update(self):
+		self.left, self.top = pygame.mouse.get_pos()
+
 
 HolbWars_Game()
