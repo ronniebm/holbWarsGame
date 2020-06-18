@@ -190,11 +190,15 @@ def HolbWars_Game():
 	# ***********DEFINED SCREEN TO PLAY
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) 
 	pygame.display.set_caption(':::  Holb-Wars v1.0  :::')
-	pygame.display.set_icon(pygame.image.load("assets/Background/Background1/_PNG/3/ico2.png"))
-	fondo = pygame.image.load("assets/Background/Background1/_PNG/3/background1.png")
-	fondo_intro = pygame.image.load("assets/Background/Background1/_PNG/3/intro.png")
-	menu1 = pygame.image.load("assets/Background/Background1/_PNG/3/info_menu.png")
-	menu2 = pygame.image.load("assets/Background/Background1/_PNG/3/info_menu2.png")
+	pygame.display.set_icon(pygame.image.load("assets/Background/ico2.png"))
+	fondo = pygame.image.load("assets/Background/fondo.png")
+	fondo1 = pygame.image.load("assets/Background/fondo1.png")
+	fondo2 = pygame.image.load("assets/Background/fondo2.png")
+	fondo3 = pygame.image.load("assets/Background/fondo3.png")
+	fondos = [fondo, fondo1, fondo2, fondo3]
+	fondo_intro = pygame.image.load("assets/Background/intro.png")
+	menu1 = pygame.image.load("assets/Background/info_menu.png")
+	menu2 = pygame.image.load("assets/Background/info_menu2.png")
 
 	
 	# load champion for the batte tuple (Champion, [bad_champ1, bad_champ2...])
@@ -212,10 +216,11 @@ def HolbWars_Game():
 	
 	reload_bad_champion = True
 	delay = 0
+	idx_fondo = 0
 
 	while True:
 		screen.fill(WHITE)
-		screen.blit(fondo, (0, 0))
+		screen.blit(fondos[idx_fondo], (0, 0))
 		screen.blit(menu1, (20, 10))
 		screen.blit(menu2, (670, 10))
 
@@ -270,6 +275,9 @@ def HolbWars_Game():
 					del list_champion[1][0]
 					reload_bad_champion = False
 					delay = pygame.time.get_ticks()
+					idx_fondo += 1
+					if idx_fondo >= len(fondos) - 1:
+						idx_fondo = 0
 			
 
 		# ****GET EVENT******
