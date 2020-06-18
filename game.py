@@ -215,7 +215,7 @@ def HolbWars_Game():
 	boton_elfo = Botton(150,50, PATH_BOTON_ELFO, PATH_BOTON_ELFO2, "elfo")
 	boton_warrior = Botton(350,50, PATH_BOTON_WARRIOR, PATH_BOTON_WARRIOR2, "warrior")
 	boton_maga = Botton(550, 50, PATH_BOTON_MAGA, PATH_BOTON_MAGA2, "maga")
-	boton_home = Botton(SCREEN_WIDTH/2, 10, " ", " ", "menu")
+	boton_home = Botton(SCREEN_WIDTH/2, 10, "assets/buttons/button_return_off.png", "assets/buttons/button_return_on.png", "menu")
 	cursor = Cursor()
 
 	# ****** INTRO ******
@@ -342,11 +342,14 @@ def HolbWars_Game():
 						evaluate_Demage(list_champion, False)
 
 
-		#update of the screen
-		boton_home.update()
+		# *** UPDATE SCREEEN ****
+		boton_home.update(screen, cursor)
 		cursor.update()
 		if boton_home.menu == True:
 			menu = True
+			for i in range(len(list_champion)):
+				del list_champion[i]
+
 
 		if delay + 600 < pygame.time.get_ticks():
 			reload_bad_champion = True
@@ -731,7 +734,7 @@ class Botton(pygame.sprite.Sprite):
 				if self.name == "maga":
 					self.list_champion = load_Champion(PATH_MAGO_WOMAN, MAGA_LEVEL1)
 					self.exit = True
-				if self.name = "menu":
+				if self.name == "menu":
 					self.menu = True
 				else:
 					self.menu = False
