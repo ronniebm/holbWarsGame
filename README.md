@@ -10,4 +10,6 @@
 2)  git clone https://github.com/ronniebm/holbWarsGame.git
 3)  run the file "game.py" in your terminal with command:  
 		$ python3 game.py  
-4)  enjoy playing.
+4)  enjoy playing the player one attack press key "a" and second attack press key "k".
+
+The mode automatic human vs PC is in construccion

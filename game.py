@@ -159,9 +159,6 @@ def load_Champion(path_hero, info_hero):
 	list = [hero, [maga, warrior, jose, maga_uno, warrior_uno, troll_uno]]
 	return list
 
-def fight_Champions(list=[]):
-	pass
-
 def evaluate_Demage(data, dest=True):
 	"""Evaluate demage get hero or enemy
 
@@ -189,6 +186,9 @@ def evaluate_Demage(data, dest=True):
 		else:
 			sub_to_hero = (health_hero - at_villan)
 			data[0].Increase_Stats({'health': sub_to_hero})
+
+
+
 
 def HolbWars_Game():
 	""" app for game """
@@ -372,6 +372,8 @@ def HolbWars_Game():
 		Reloj.tick(30)
 
 
+
+
 class Base_Champions(object):
 	"""clas main for champions
 
@@ -389,7 +391,6 @@ class Base_Champions(object):
 		self.exp_total = 0
 		self.stats = {}
 		self.stat_point = 0
-
 
 	def update_base(self, kwarg):
 		"""update data
@@ -545,6 +546,12 @@ class Base_Champions(object):
 				self.stats.update({'health': 0})
 
 class Champion(pygame.sprite.Sprite, Base_Champions):
+	"""Champions class
+
+	Args:
+		pygame (sprite): librery of pygame inherit
+		Base_Champions (class): class base champions
+	"""
 
 	def __init__(self, ruta, pos_x, pos_y):
 		pygame.sprite.Sprite.__init__(self)
@@ -708,6 +715,11 @@ class Champion(pygame.sprite.Sprite, Base_Champions):
 				self.life = True
 
 class Botton(pygame.sprite.Sprite):
+	"""boton for flow control
+
+	Args:
+		pygame (sprite): boton
+	"""
 
 	def __init__(self, pos_x, pos_y, path1, path2, name=""):
 		pygame.sprite.Sprite.__init__(self)
@@ -755,6 +767,11 @@ class Botton(pygame.sprite.Sprite):
 			self.image = self.image_boton1
 		
 class Cursor(pygame.Rect):
+	"""Cursor mouse
+
+	Args:
+		pygame (Rect): coord and rect of cursor
+	"""
 	def __init__(self):
 		pygame.Rect.__init__(self, 0, 0, 1, 1)
 
