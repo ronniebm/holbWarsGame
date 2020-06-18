@@ -20,12 +20,14 @@ PATH_WARRIOR = "assets/Personajes_png/warrior_animated_move.png"
 PATH_MAGO_WOMAN = "assets/Personajes_png/woman_animated_move.png"
 PATH_TROLL = "assets/Personajes_png/troll_animated_move.png"
 PATH_JOSE = "assets/Personajes_png/jose_animated_move.png"
+
 PATH_BOTON_ELFO = "assets/buttons/elf_player.png"
 PATH_BOTON_WARRIOR = "assets/buttons/warrior_player.png"
 PATH_BOTON_MAGA = "assets/buttons/woman_player.png"
-PATH_BOTON_ELFO2 = "assets/buttons/elf_player.png"
-PATH_BOTON_WARRIOR2 = "assets/buttons/warrior_player.png"
-PATH_BOTON_MAGA2 = "assets/buttons/woman_player.png"
+
+PATH_BOTON_ELFO2 = "assets/buttons/elf_player2.png"
+PATH_BOTON_WARRIOR2 = "assets/buttons/warrior_player2.png"
+PATH_BOTON_MAGA2 = "assets/buttons/woman_player2.png"
 
 IMG_NUMBER = 10
 FPS = 30
@@ -210,9 +212,9 @@ def HolbWars_Game():
 	
 	# load champion for the batte tuple (Champion, [bad_champ1, bad_champ2...])
 	list_champion = load_Champion()
-	boton_elfo = Botton(50,50, PATH_BOTON_ELFO, "elfo")
-	boton_warrior = Botton(250,50, PATH_BOTON_WARRIOR, "warrior")
-	boton_maga = Botton(450, 50, PATH_BOTON_MAGA, "maga")
+	boton_elfo = Botton(50,50, PATH_BOTON_ELFO, PATH_BOTON_ELFO2, "elfo")
+	boton_warrior = Botton(250,50, PATH_BOTON_WARRIOR, PATH_BOTON_WARRIOR2, "warrior")
+	boton_maga = Botton(450, 50, PATH_BOTON_MAGA, PATH_BOTON_MAGA2, "maga")
 
 	cursor = Cursor()
 	#******INTRO******
@@ -698,6 +700,8 @@ class Botton(pygame.sprite.Sprite):
 			self.image = self.image_boton2
 			if pygame.mouse.get_pressed() == (1, 0, 0):
 				print(self.name)
+		if not cursor.colliderect(self.rect):
+			self.image = self.image_boton1
 		
 class Cursor(pygame.Rect):
 	def __init__(self):
