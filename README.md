@@ -8,5 +8,6 @@
 ### How to play:
 1)  Open your terminal, and clone this repository:
 2)  git clone https://github.com/ronniebm/holbWarsGame.git
-3)  run the file "game.py"
+3)  run the file "game.py" in your terminal with command:  
+		$ python3 game.py  
 4)  enjoy playing.
