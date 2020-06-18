@@ -1,6 +1,7 @@
 ## HOLBWARS game v1.0.  
 ## ------------------------------  
-  
+
+![img](assets/Background/intro.png)
 ### About:
 * It's a Heroe's game, in which you select a character to fight, and then you must defeat the enemyes to gain experience and new levels !. 
 * You must choose one of three warriors, ELF, MAGICIAN, WARRIOR.
