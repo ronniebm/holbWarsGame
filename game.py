@@ -206,15 +206,16 @@ def HolbWars_Game():
 	fondo3 = pygame.image.load("assets/Background/fondo3.png")
 	fondos = [fondo, fondo1, fondo2, fondo3]
 	fondo_intro = pygame.image.load("assets/Background/intro.png")
+	fondo_menu = pygame.image.load("assets/Background/wall_intro.png")
 	menu1 = pygame.image.load("assets/Background/info_menu.png")
 	menu2 = pygame.image.load("assets/Background/info_menu2.png")
 
 	
 	# load champion for the batte tuple (Champion, [bad_champ1, bad_champ2...])
 	#list_champion = load_Champion()
-	boton_elfo = Botton(50,50, PATH_BOTON_ELFO, PATH_BOTON_ELFO2, "elfo")
-	boton_warrior = Botton(250,50, PATH_BOTON_WARRIOR, PATH_BOTON_WARRIOR2, "warrior")
-	boton_maga = Botton(450, 50, PATH_BOTON_MAGA, PATH_BOTON_MAGA2, "maga")
+	boton_elfo = Botton(150,50, PATH_BOTON_ELFO, PATH_BOTON_ELFO2, "elfo")
+	boton_warrior = Botton(350,50, PATH_BOTON_WARRIOR, PATH_BOTON_WARRIOR2, "warrior")
+	boton_maga = Botton(550, 50, PATH_BOTON_MAGA, PATH_BOTON_MAGA2, "maga")
 
 	cursor = Cursor()
 	#******INTRO******
@@ -241,6 +242,7 @@ def HolbWars_Game():
 
 		while menu:
 			screen.fill(WHITE)
+			screen.blit(fondo_menu, (0, 0))
 			list_champion = []
 			boton_elfo.draw_botton(screen)
 			boton_maga.draw_botton(screen)
