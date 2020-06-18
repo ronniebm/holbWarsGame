@@ -216,7 +216,7 @@ def HolbWars_Game():
 	boton_elfo = Botton(150,50, PATH_BOTON_ELFO, PATH_BOTON_ELFO2, "elfo")
 	boton_warrior = Botton(350,50, PATH_BOTON_WARRIOR, PATH_BOTON_WARRIOR2, "warrior")
 	boton_maga = Botton(550, 50, PATH_BOTON_MAGA, PATH_BOTON_MAGA2, "maga")
-	boton_home = Botton(SCREEN_WIDTH/2, 10, "assets/buttons/button_return_off.png", "assets/buttons/button_return_on.png", "menu")
+	boton_home = Botton(350, 10, "assets/buttons/button_return_off.png", "assets/buttons/button_return_on.png", "menu")
 	cursor = Cursor()
 
 	# ****** INTRO ******
@@ -244,7 +244,7 @@ def HolbWars_Game():
 			boton_elfo.draw_botton(screen)
 			boton_maga.draw_botton(screen)
 			boton_warrior.draw_botton(screen)
-
+			boton_home.menu = False
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					pygame.quit()
@@ -252,6 +252,7 @@ def HolbWars_Game():
 
 
 			if (boton_elfo.exit or boton_maga.exit or boton_warrior.exit) is True:
+				print(list_champion)
 				if len(boton_elfo.list_champion) > 0:
 					for i in boton_elfo.list_champion:
 						list_champion.append(i)
@@ -358,7 +359,10 @@ def HolbWars_Game():
 
 		if delay + 600 < pygame.time.get_ticks():
 			reload_bad_champion = True
-
+			if boton_home.menu == True:
+				menu = True
+				list_champion.pop()
+				list_champion.pop()
 
 
 
@@ -729,7 +733,7 @@ class Botton(pygame.sprite.Sprite):
 		if cursor.colliderect(self.rect):
 			self.image = self.image_boton2
 			if pygame.mouse.get_pressed() == (1, 0, 0):
-				print(self.name)
+
 				if self.name == "elfo":
 					self.list_champion = load_Champion(PATH_ELFO, ELFO_LEVEL1)
 					self.exit = True
@@ -743,6 +747,9 @@ class Botton(pygame.sprite.Sprite):
 					self.menu = True
 				else:
 					self.menu = False
+			else:
+				self.exit = False
+
 
 		if not cursor.colliderect(self.rect):
 			self.image = self.image_boton1
