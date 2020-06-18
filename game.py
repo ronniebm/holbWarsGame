@@ -648,8 +648,21 @@ class Champion(pygame.sprite.Sprite, Base_Champions):
 
 class Botton(pygame.sprite.Sprite):
 
-	def __init__(self,):
+	def __init__(self, pos_x, pos_y):
 		pygame.sprite.Sprite.__init__()
+		b_elfo = pygame.image.load("")
+		b_maga = pygame.image.load("")
+		b_warrior = pygame.image.load("")
+		list_bottons = [b_elfo, b_maga, b_warrior]
+
+		self.rect = list_bottons[0].get_rect()
+		self.rect.top = pos_y
+		self.rect.left = pos_x
+
+	def draw_botton(self, place, idx=0):
+		place.blit(self.list_bottons[idx], self.)
+		
+
 		
 
 HolbWars_Game()
