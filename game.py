@@ -35,129 +35,153 @@ POS_X_HERO = 20
 POS_X_BAD_HERO = (SCREEN_WIDTH - 320)
 POS_Y_CHMP = (SCREEN_HEIGHT - 300)
 
-
-ELFO_LEVEL1 = {
-	'name':"Itharos",
-	'race': "Elfo",
-	'gender': "M",
-	'level': 1,
-	'exp_to_next_lv': 10,
-	'current_exp': 0,
-	'exp_total': 0,
-	'stats': {
-		'health': 100, 
-		'attack': 30, 
-		'defense': 5,
-		'magic': 0,
-		'speed': 2
+CHARACTER_DATA = {
+	'elfo' : {
+		'info_level1': {
+			'name':"Itharos",
+			'race': "Elfo",
+			'gender': "M",
+			'level': 1,
+			'exp_to_next_lv': 10,
+			'current_exp': 0,
+			'exp_total': 0,
+			'stat_point': 0,
+			'stats': {
+				'health': 100, 
+				'attack': 30, 
+				'defense': 5,
+				'magic': 0,
+				'speed': 2
+			},
+		},
+		'path_image' : PATH_ELFO
 	},
-	'stat_point': 0
+
+	'maga' : {
+		'info_level1' : {
+			'name':"Chost",
+			'race': "Maga",
+			'gender': "F",
+			'level': 1,
+			'exp_to_next_lv': 10,
+			'current_exp': 0,
+			'exp_total': 0,
+			'stat_point': 0,
+			'stats': {
+				'health': 100, 
+				'attack': 10, 
+				'defense': 15,
+				'magic': 10,
+				'speed': 3
+			},
+		},
+		'path_image' : PATH_MAGO_WOMAN,
+
+	},
+
+	'warrior' : {
+		'info_level1' : {
+			'name':"Heaghan",
+			'race': "Warrior",
+			'gender': "M",
+			'level': 1,
+			'exp_to_next_lv': 10,
+			'current_exp': 0,
+			'exp_total': 0,
+			'stat_point': 0,
+			'stats': {
+				'health': 100, 
+				'attack': 20, 
+				'defense': 20,
+				'magic': 0,
+				'speed': 3
+			},
+		},
+		'path_image' : PATH_WARRIOR,
+
+	},
+
+	'troll' : {
+		'info_level1' : {
+			'name':"Ordum",
+			'race': "Troll",
+			'gender': "M",
+			'level': 1,
+			'exp_to_next_lv': 10,
+			'current_exp': 0,
+			'exp_total': 0,
+			'stat_point': 0,
+			'stats': {
+				'health': 100, 
+				'attack': 35, 
+				'defense': 15,
+				'magic': 0,
+				'speed': 1
+			},
+		},
+		'path_image' : PATH_TROLL,
+
+	},
+
+	'jose' : {
+		'info_level1' : {
+			'name':"JosElfo",
+			'race': "Humano",
+			'gender': "M",
+			'level': 1,
+			'exp_to_next_lv': 10,
+			'current_exp': 0,
+			'exp_total': 0,
+			'stat_point': 0,
+			'stats': {
+				'health': 100, 
+				'attack': 20, 
+				'defense': 10,
+				'magic': 0,
+				'speed': 1
+			},
+		},
+		'path_image' : PATH_JOSE
+	}
+
+	
+
 }
 
-MAGA_LEVEL1 = {
-	'name':"Chost",
-	'race': "Maga",
-	'gender': "F",
-	'level': 1,
-	'exp_to_next_lv': 10,
-	'current_exp': 0,
-	'exp_total': 0,
-	'stats': {
-		'health': 100, 
-		'attack': 10, 
-		'defense': 15,
-		'magic': 10,
-		'speed': 3
-	},
-	'stat_point': 0
-}
 
-WARRIOR_LEVEL1 = {
-	'name':"Heaghan",
-	'race': "Warrior",
-	'gender': "M",
-	'level': 1,
-	'exp_to_next_lv': 10,
-	'current_exp': 0,
-	'exp_total': 0,
-	'stats': {
-		'health': 100, 
-		'attack': 20, 
-		'defense': 20,
-		'magic': 0,
-		'speed': 3
-	},
-	'stat_point': 0
-}
 
-TROLL_LEVEL1 = {
-	'name':"Ordum",
-	'race': "Troll",
-	'gender': "M",
-	'level': 1,
-	'exp_to_next_lv': 10,
-	'current_exp': 0,
-	'exp_total': 0,
-	'stats': {
-		'health': 100, 
-		'attack': 35, 
-		'defense': 15,
-		'magic': 0,
-		'speed': 1
-	},
-	'stat_point': 0
-}
-
-JOSE_LEVEL1 = {
-	'name':"JosElfo",
-	'race': "Humano",
-	'gender': "M",
-	'level': 1,
-	'exp_to_next_lv': 10,
-	'current_exp': 0,
-	'exp_total': 0,
-	'stats': {
-		'health': 100, 
-		'attack': 20, 
-		'defense': 10,
-		'magic': 0,
-		'speed': 1
-	},
-	'stat_point': 0
-}
 
 # ****** FUNTIONS **********
-def load_Champion(path_hero, info_hero):
-	"""load to champion por play
+def load_Champion(hero_name=""):
+	"""Load champions for game play
+
+	Args:
+		hero_name (str): hero for user paly. Defaults to "".
 
 	Returns:
-		tupe: first elemen is hero second is an list of enemy
+		list: It's two objet first heroe, second is a list of enemy
 	"""
-	# load Champion
-	hero = Champion(path_hero, POS_X_HERO, POS_Y_CHMP)
-	hero.update_base(info_hero)
+	list_characters = []
+	if hero_name is not None:
+		idx_enemy = 0
+		hero_select = CHARACTER_DATA.get(hero_name)	
+		list_enemy_name = list(CHARACTER_DATA.keys())
+		x,y = POS_X_BAD_HERO, POS_Y_CHMP
+		# load Champion
+		heroe = Champion(hero_select.get('path_image'), POS_X_HERO, POS_Y_CHMP)
+		heroe.update_base(hero_select.get('info_level1'))
+		list_characters.append(heroe)
+		list_characters.append([])
 
-	#load bad_champion
-	warrior = Champion(PATH_WARRIOR, POS_X_BAD_HERO, POS_Y_CHMP)
-	warrior.update_base(WARRIOR_LEVEL1)
-
-	maga = Champion(PATH_MAGO_WOMAN, POS_X_BAD_HERO, POS_Y_CHMP)
-	maga.update_base(MAGA_LEVEL1)
-
-	maga_uno = Champion(PATH_MAGO_WOMAN, POS_X_BAD_HERO, POS_Y_CHMP)
-	maga_uno.update_base(MAGA_LEVEL1)
-
-	warrior_uno = Champion(PATH_WARRIOR, POS_X_BAD_HERO, POS_Y_CHMP)
-	warrior_uno.update_base(WARRIOR_LEVEL1)
-
-	troll_uno = Champion(PATH_TROLL, POS_X_BAD_HERO, POS_Y_CHMP)
-	troll_uno.update_base(TROLL_LEVEL1)
-
-	jose = Champion(PATH_JOSE, POS_X_BAD_HERO, POS_Y_CHMP)
-	jose.update_base(JOSE_LEVEL1)
-
-	list = [hero, [maga, warrior, jose, maga_uno, warrior_uno, troll_uno]]
-	return list
+		#load bad_champion
+		for enemy_name in list_enemy_name:
+			idx_enemy = len(list_characters[1])
+			if enemy_name != hero_name:
+				enemy_data = CHARACTER_DATA.get(enemy_name)
+				list_characters[1].append(Champion(enemy_data.get('path_image'), x, y))
+				list_characters[1][idx_enemy].update_base(enemy_data.get('info_level1'))
+	
+	return list_characters
 
 def evaluate_Demage(data, dest=True):
 	"""Evaluate demage get hero or enemy
@@ -744,15 +768,14 @@ class Botton(pygame.sprite.Sprite):
 		if cursor.colliderect(self.rect):
 			self.image = self.image_boton2
 			if pygame.mouse.get_pressed() == (1, 0, 0):
-
 				if self.name == "elfo":
-					self.list_champion = load_Champion(PATH_ELFO, ELFO_LEVEL1)
+					self.list_champion = load_Champion("elfo")
 					self.exit = True
 				if self.name == "warrior":
-					self.list_champion = load_Champion(PATH_WARRIOR, WARRIOR_LEVEL1)
+					self.list_champion = load_Champion("warrior")
 					self.exit = True
 				if self.name == "maga":
-					self.list_champion = load_Champion(PATH_MAGO_WOMAN, MAGA_LEVEL1)
+					self.list_champion = load_Champion("maga")
 					self.exit = True
 				if self.name == "menu":
 					self.menu = True
