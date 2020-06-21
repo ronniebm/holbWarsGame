@@ -189,7 +189,7 @@ def evaluate_Demage(data, dest=True):
 
 
 
-# *********GAME**********
+# ******** GAME *********
 def HolbWars_Game():
 	""" app for game """
 
@@ -373,7 +373,7 @@ def HolbWars_Game():
 
 
 
-
+# **** Class ************
 class Base_Champions(object):
 	"""clas main for champions
 
