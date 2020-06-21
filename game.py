@@ -189,7 +189,7 @@ def evaluate_Demage(data, dest=True):
 
 
 
-
+# *********GAME**********
 def HolbWars_Game():
 	""" app for game """
 
@@ -556,34 +556,33 @@ class Champion(pygame.sprite.Sprite, Base_Champions):
 	def __init__(self, ruta, pos_x, pos_y):
 		pygame.sprite.Sprite.__init__(self)
 		Base_Champions.__init__(self)
-		self.arr_walk_right = []
-		
-		self.arr_run_right = []
-		self.arr_attack_right = []
-		self.arr_die_right = []
-		self.arr_reverse = []
 		self.img_base = pygame.image.load(ruta)
 
+		self.arr_walk_right = []
+		self.arr_walk_left = []
+		self.arr_run_right = []
+		self.arr_run_left = []
+		self.arr_attack_right = []
+		self.arr_attack_left = []
+		self.arr_die_right = []
+		self.arr_die_left = []
+		self.arr_reverse = []
+
 		for i in range(IMG_NUMBER):
+			# get imeges from img base
 			self.arr_walk_right.append(self.img_base.subsurface(i*300,0,300,300))
 			self.arr_attack_right.append(self.img_base.subsurface(i*300,300,300,300))
 			self.arr_run_right.append(self.img_base.subsurface(i*300,600,300,300))
 			self.arr_die_right.append(self.img_base.subsurface(i*300,900,300,300))
+			# copy reflejo vertical of each one
+			self.arr_walk_left.append(pygame.transform.flip(self.arr_walk_right[i], True, False))
+			self.arr_attack_left.append(pygame.transform.flip(self.arr_attack_right[i], True, False))
+			self.arr_run_left.append(pygame.transform.flip(self.arr_run_right[i], True, False))
+			self.arr_die_left.append(pygame.transform.flip(self.arr_die_right[i], True, False))
 
 		for i in range(IMG_NUMBER):
 			self.arr_reverse.append(self.arr_die_right[-i])
-
-
-		self.arr_walk_left = self.arr_walk_right[:]
-		self.arr_attack_left = self.arr_attack_right[:]
-		self.arr_run_left = self.arr_run_right[:]
-		self.arr_die_left = self.arr_die_right[:]
-
-		for i in range(IMG_NUMBER):
-			self.arr_walk_left[i] = pygame.transform.flip(self.arr_walk_left[i], True, False)
-			self.arr_attack_left[i] = pygame.transform.flip(self.arr_attack_left[i], True, False)
-			self.arr_run_left[i] = pygame.transform.flip(self.arr_run_left[i], True, False)
-			self.arr_die_left[i] = pygame.transform.flip(self.arr_die_left[i], True, False)
+			
 			
 		self.idx_img = 3
 		self.image = self.arr_walk_right[self.idx_img]
