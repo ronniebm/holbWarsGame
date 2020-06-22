@@ -41,8 +41,6 @@ PATH_BOTTONS = {
 	],
 }
 
-
-
 IMG_NUMBER = 10
 FPS = 30
 POS_X_HERO = 20
@@ -157,16 +155,20 @@ CHARACTER_DATA = {
 		},
 		'path_image' : PATH_JOSE
 	}
-
-	
-
 }
 
-#boton_elfo = Botton(150,50, PATH_BOTON_ELFO, PATH_BOTON_ELFO2, "elfo")
-#boton_warrior = Botton(350,50, PATH_BOTON_WARRIOR, PATH_BOTON_WARRIOR2, "warrior")
-#boton_maga = Botton(550, 50, PATH_BOTON_MAGA, PATH_BOTON_MAGA2, "maga")
+# ****** FUNTIONS **********
 
 def draw_Menu(screen, cursor):
+	"""Draw menu in screen.
+
+	Args:
+		screen (screen): screen of game.
+		cursor (cursor): cursor position mouse.
+
+	Returns:
+		list: list character type sprite.
+	"""
 
 	x, y = 150, 350
 	idx_bottons = 0
@@ -194,9 +196,9 @@ def draw_Menu(screen, cursor):
 				pygame.quit()
 				quit()
 
+		# ****** update screen *********
 		pygame.display.flip()
 
-# ****** FUNTIONS **********
 def load_Champion(hero_name=""):
 	"""Load champions for game play
 
@@ -238,10 +240,10 @@ def evaluate_Demage(data, dest=True):
 	if type(data) is list and data is not None:
 
 		at_hero = data[0].stats.get('attack')
-		def_hero = data[0].stats.get('defense')
+		#def_hero = data[0].stats.get('defense')
 		at_villan = data[1][0].stats.get('attack')
-		def_villan = data[1][0].stats.get('defense')
-		magic_villan = data[1][0].stats.get('magic')
+		#def_villan = data[1][0].stats.get('defense')
+		#magic_villan = data[1][0].stats.get('magic')
 		health_hero = data[0].stats.get('health')
 		health_villan = data[1][0].stats.get('health')
 
