@@ -20,14 +20,28 @@ PATH_WARRIOR = "assets/Personajes_png/warrior_animated_move.png"
 PATH_MAGO_WOMAN = "assets/Personajes_png/woman_animated_move.png"
 PATH_TROLL = "assets/Personajes_png/troll_animated_move.png"
 PATH_JOSE = "assets/Personajes_png/jose_animated_move.png"
+FONDOS = [
+	pygame.image.load("assets/Background/fondo.png"),
+	pygame.image.load("assets/Background/fondo1.png"),
+	pygame.image.load("assets/Background/fondo2.png"),
+	pygame.image.load("assets/Background/fondo3.png")
+]
+PATH_BOTTONS = {
+	'elfo':[
+		"assets/buttons/elf_player.png",
+		"assets/buttons/elf_player2.png"
+	],
+	'maga':[
+		"assets/buttons/woman_player.png",
+		"assets/buttons/woman_player2.png"
+	],
+	'warrior':[
+		"assets/buttons/warrior_player.png",
+		"assets/buttons/warrior_player2.png"
+	],
+}
 
-PATH_BOTON_ELFO = "assets/buttons/elf_player.png"
-PATH_BOTON_WARRIOR = "assets/buttons/warrior_player.png"
-PATH_BOTON_MAGA = "assets/buttons/woman_player.png"
 
-PATH_BOTON_ELFO2 = "assets/buttons/elf_player2.png"
-PATH_BOTON_WARRIOR2 = "assets/buttons/warrior_player2.png"
-PATH_BOTON_MAGA2 = "assets/buttons/woman_player2.png"
 
 IMG_NUMBER = 10
 FPS = 30
@@ -148,8 +162,39 @@ CHARACTER_DATA = {
 
 }
 
+#boton_elfo = Botton(150,50, PATH_BOTON_ELFO, PATH_BOTON_ELFO2, "elfo")
+#boton_warrior = Botton(350,50, PATH_BOTON_WARRIOR, PATH_BOTON_WARRIOR2, "warrior")
+#boton_maga = Botton(550, 50, PATH_BOTON_MAGA, PATH_BOTON_MAGA2, "maga")
 
+def draw_Menu(screen, cursor):
 
+	x, y = 150, 350
+	idx_bottons = 0
+	fondo_menu = pygame.image.load("assets/Background/wall_intro.png")
+	list_bottons_selection = list(PATH_BOTTONS.keys())
+	list_bottons = []
+	for botton in list_bottons_selection:
+		list_bottons.append(Botton(x, y, PATH_BOTTONS.get(botton), botton))
+		x += 200
+
+	while True:
+		screen.fill(WHITE)
+		screen.blit(fondo_menu, (0, 0))
+		
+		cursor.update()
+		for idx_bottons in range(len(list_bottons)):
+			list_bottons[idx_bottons].draw_botton(screen)
+			list_bottons[idx_bottons].update(screen, cursor)
+			if list_bottons[idx_bottons].exit:
+				return list_bottons[idx_bottons].list_champion
+				
+
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				pygame.quit()
+				quit()
+
+		pygame.display.flip()
 
 # ****** FUNTIONS **********
 def load_Champion(hero_name=""):
@@ -225,22 +270,14 @@ def HolbWars_Game():
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) 
 	pygame.display.set_caption(':::  Holb-Wars v1.0  :::')
 	pygame.display.set_icon(pygame.image.load("assets/Background/ico2.png"))
-	fondo = pygame.image.load("assets/Background/fondo.png")
-	fondo1 = pygame.image.load("assets/Background/fondo1.png")
-	fondo2 = pygame.image.load("assets/Background/fondo2.png")
-	fondo3 = pygame.image.load("assets/Background/fondo3.png")
-	fondos = [fondo, fondo1, fondo2, fondo3]
 	fondo_intro = pygame.image.load("assets/Background/intro.png")
-	fondo_menu = pygame.image.load("assets/Background/wall_intro.png")
+	#fondo_menu = pygame.image.load("assets/Background/wall_intro.png")
 	menu1 = pygame.image.load("assets/Background/info_menu.png")
 	menu2 = pygame.image.load("assets/Background/info_menu2.png")
 
 
 	# ******* BOTTON FOR CONTROL FLOW PROGRAM ******
-	boton_elfo = Botton(150,50, PATH_BOTON_ELFO, PATH_BOTON_ELFO2, "elfo")
-	boton_warrior = Botton(350,50, PATH_BOTON_WARRIOR, PATH_BOTON_WARRIOR2, "warrior")
-	boton_maga = Botton(550, 50, PATH_BOTON_MAGA, PATH_BOTON_MAGA2, "maga")
-	boton_home = Botton(350, 10, "assets/buttons/button_return_off.png", "assets/buttons/button_return_on.png", "menu")
+	boton_home = Botton(350, 10, ["assets/buttons/button_return_off.png", "assets/buttons/button_return_on.png"], "menu")
 	cursor = Cursor()
 
 	# ****** INTRO ******
@@ -261,42 +298,17 @@ def HolbWars_Game():
 	while True:
 
 		# *** START MENU ****
-		while menu:
-			screen.fill(WHITE)
-			screen.blit(fondo_menu, (0, 0))
-			list_champion = []
-			boton_elfo.draw_botton(screen)
-			boton_maga.draw_botton(screen)
-			boton_warrior.draw_botton(screen)
+		if menu:
+			list_champion = draw_Menu(screen, cursor)
+		if len(list_champion) > 0:
+			menu = False
 			boton_home.menu = False
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					pygame.quit()
-					quit()
+		else:
+			menu = True
 
-
-			if (boton_elfo.exit or boton_maga.exit or boton_warrior.exit) is True:
-				print(list_champion)
-				if len(boton_elfo.list_champion) > 0:
-					for i in boton_elfo.list_champion:
-						list_champion.append(i)
-					menu = False
-				if len(boton_warrior.list_champion) > 0:
-					for i in boton_warrior.list_champion:
-						list_champion.append(i)
-					menu = False
-				if len(boton_maga.list_champion) > 0:
-					for i in boton_maga.list_champion:
-						list_champion.append(i)
-					menu = False
-			boton_elfo.update(screen, cursor)
-			boton_maga.update(screen, cursor)
-			boton_warrior.update(screen, cursor)
-			cursor.update()
-			pygame.display.flip()
 
 		screen.fill(WHITE)
-		screen.blit(fondos[idx_fondo], (0, 0))
+		screen.blit(FONDOS[idx_fondo], (0, 0))
 		screen.blit(menu1, (20, 10))
 		screen.blit(menu2, (670, 10))
 		screen.blit(boton_home.image, boton_home.rect)
@@ -352,7 +364,7 @@ def HolbWars_Game():
 					reload_bad_champion = False
 					delay = pygame.time.get_ticks()
 					idx_fondo += 1
-					if idx_fondo >= len(fondos) - 1:
+					if idx_fondo >= len(FONDOS) - 1:
 						idx_fondo = 0
 			
 
@@ -387,10 +399,6 @@ def HolbWars_Game():
 				menu = True
 				list_champion.pop()
 				list_champion.pop()
-
-
-
-
 
 		pygame.display.flip()
 		Reloj.tick(30)
@@ -744,10 +752,10 @@ class Botton(pygame.sprite.Sprite):
 		pygame (sprite): boton
 	"""
 
-	def __init__(self, pos_x, pos_y, path1, path2, name=""):
+	def __init__(self, pos_x, pos_y, path_imgs, name=""):
 		pygame.sprite.Sprite.__init__(self)
-		self.path1 = path1
-		self.path2 = path2
+		self.path1 = path_imgs[0]
+		self.path2 = path_imgs[1]
 		self.name = name
 		self.image_boton1 = pygame.image.load(self.path1)
 		self.image_boton2 = pygame.image.load(self.path2)
@@ -759,6 +767,7 @@ class Botton(pygame.sprite.Sprite):
 		self.exit = False
 		self.list_champion = []
 		self.menu = False
+		self.botton_pressed = False
 
 	def draw_botton(self, place, idx=0):
 		self.idx = idx
@@ -768,6 +777,8 @@ class Botton(pygame.sprite.Sprite):
 		if cursor.colliderect(self.rect):
 			self.image = self.image_boton2
 			if pygame.mouse.get_pressed() == (1, 0, 0):
+				self.botton_pressed = True
+
 				if self.name == "elfo":
 					self.list_champion = load_Champion("elfo")
 					self.exit = True
@@ -783,6 +794,7 @@ class Botton(pygame.sprite.Sprite):
 					self.menu = False
 			else:
 				self.exit = False
+				self.botton_pressed = False
 
 
 		if not cursor.colliderect(self.rect):
